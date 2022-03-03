@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -23,17 +24,18 @@ public class Portfolio implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @NotBlank
+    @Column(nullable = false, unique = true, length = 60)
     private String projectName;
 
+    @Column(nullable = false, unique = true, length = 140)
     private String resume;
 
     private String linkProject;
 
-    @Lob
+    @Column(columnDefinition = "Text")
     private String description;
 
-    @Lob
+    @Column(columnDefinition = "Text")
     private String technology;
 
     private String img;
@@ -41,7 +43,7 @@ public class Portfolio implements Serializable {
     @NotBlank
     private String github;
 
-    @JsonIgnore
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "dd-MM-yyyy HH:mm:ss")
-    private LocalDateTime creationDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
+    @Column(updatable = false)
+    private LocalDate creationDate;
 }
