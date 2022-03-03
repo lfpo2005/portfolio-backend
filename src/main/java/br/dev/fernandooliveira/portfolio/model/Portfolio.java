@@ -1,6 +1,7 @@
 package br.dev.fernandooliveira.portfolio.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.Data;
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -26,20 +28,20 @@ public class Portfolio implements Serializable {
 
     private String resume;
 
+    private String linkProject;
+
     @Lob
     private String description;
 
-    private String imgUrl;
-
     @Lob
-    private String url;
+    private String technology;
 
+    private String img;
+
+    @NotBlank
     private String github;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    private LocalDate data;
-
-    @OneToMany(mappedBy = "portfolio_technology", orphanRemoval = true, cascade = CascadeType.ALL )
-    private List<Technology> tech;
-
+    @JsonIgnore
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "dd-MM-yyyy HH:mm:ss")
+    private LocalDateTime creationDate;
 }
